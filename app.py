@@ -19,21 +19,22 @@ app.secret_key = os.getenv("TYPEFLOW_SECRET_KEY")
 
 
 # -----------------------------
-# MySQL Database Connection
+# Database connection
 # -----------------------------
 
 def get_db_connection():
-
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
+        host=os.getenv("TYPEFLOW_DB_HOST"),
+        port=int(os.getenv("TYPEFLOW_DB_PORT", "3306")),
+        user=os.getenv("TYPEFLOW_DB_USER"),
         password=os.getenv("TYPEFLOW_DB_PASSWORD"),
-        database="typeflow"
+        database=os.getenv("TYPEFLOW_DB_NAME"),
+        ssl_disabled=False
     )
 
 
 # -----------------------------
-# Resend Email Configuration
+# Resend configuration
 # -----------------------------
 
 resend.api_key = os.getenv("RESEND_API_KEY")
@@ -43,10 +44,7 @@ resend.api_key = os.getenv("RESEND_API_KEY")
 # Send Verification Email
 # -----------------------------
 
-def send_verification_email(
-    recipient_email,
-    verification_code
-):
+def send_verification_email(recipient_email, verification_code):
 
     params = {
         "from": "TypeFlow <onboarding@resend.dev>",
@@ -99,6 +97,10 @@ def send_verification_email(
             <p>
                 Enter this code on the TypeFlow verification page
                 to complete your registration.
+            </p>
+
+            <p style="color: #9ca3af;">
+                This verification code expires in 10 minutes.
             </p>
 
             <p style="color: #9ca3af;">
@@ -157,13 +159,11 @@ def login_user():
 
     password = request.form["password"]
 
-
     connection = get_db_connection()
 
     cursor = connection.cursor(
         dictionary=True
     )
-
 
     cursor.execute(
         """
@@ -174,9 +174,7 @@ def login_user():
         (email,)
     )
 
-
     user = cursor.fetchone()
-
 
     cursor.close()
 
@@ -283,7 +281,6 @@ def register_user():
         (email,)
     )
 
-
     existing_user = cursor.fetchone()
 
 
@@ -317,22 +314,29 @@ def register_user():
             )
         )
 
+        verification_expires_at = (
+            datetime.now()
+            + timedelta(minutes=10)
+        )
+
 
         cursor.execute(
             """
             UPDATE users
-            SET verification_code = %s
+            SET
+                verification_code = %s,
+                verification_expires_at = %s
             WHERE id = %s
             """,
             (
                 verification_code,
+                verification_expires_at,
                 existing_user["id"]
             )
         )
 
 
         connection.commit()
-
 
         cursor.close()
 
@@ -389,6 +393,12 @@ def register_user():
     )
 
 
+    verification_expires_at = (
+        datetime.now()
+        + timedelta(minutes=10)
+    )
+
+
     cursor.close()
 
 
@@ -404,20 +414,23 @@ def register_user():
             email,
             password_hash,
             email_verified,
-            verification_code
+            verification_code,
+            verification_expires_at
         )
         VALUES
         (
             %s,
             %s,
             FALSE,
+            %s,
             %s
         )
         """,
         (
             email,
             password_hash,
-            verification_code
+            verification_code,
+            verification_expires_at
         )
     )
 
@@ -562,6 +575,25 @@ def verify_email_code():
         )
 
 
+    # Check expiration
+
+    if (
+        user["verification_expires_at"] is None
+        or datetime.now()
+        > user["verification_expires_at"]
+    ):
+
+        cursor.close()
+
+        connection.close()
+
+        return (
+            "Verification code has expired. "
+            "Please register again to receive "
+            "a new code."
+        )
+
+
     # Mark email as verified
 
     cursor.execute(
@@ -569,7 +601,8 @@ def verify_email_code():
         UPDATE users
         SET
             email_verified = TRUE,
-            verification_code = NULL
+            verification_code = NULL,
+            verification_expires_at = NULL
         WHERE email = %s
         """,
         (email,)
@@ -622,18 +655,21 @@ def dashboard():
         """
         SELECT
             COUNT(*) AS total_tests,
+
             MAX(
                 GREATEST(
                     round1_accuracy,
                     round2_accuracy
                 )
             ) AS best_accuracy,
+
             MAX(
                 GREATEST(
                     round1_wpm,
                     round2_wpm
                 )
             ) AS best_wpm,
+
             AVG(
                 (
                     round1_accuracy +
@@ -710,6 +746,7 @@ def save_result():
         data
     )
 
+
     print(
         "LOGGED USER:",
         session.get("user_id")
@@ -720,13 +757,16 @@ def save_result():
         "round1_accuracy"
     )
 
+
     round1_wpm = data.get(
         "round1_wpm"
     )
 
+
     round2_accuracy = data.get(
         "round2_accuracy"
     )
+
 
     round2_wpm = data.get(
         "round2_wpm"
