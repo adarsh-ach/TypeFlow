@@ -1,0 +1,640 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: white;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            #24134f,
+            #090b15 45%,
+            #06152c
+        );
+
+    overflow-x: hidden;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    width: 100%;
+
+    padding: 22px 40px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+
+    background:
+        rgba(10, 10, 20, 0.55);
+
+    backdrop-filter: blur(15px);
+}
+
+
+.logo {
+    font-size: 26px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    color: #c7a1ff;
+}
+
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+
+.user-email {
+    color: #aaa;
+    font-size: 14px;
+}
+
+
+.logout-btn {
+    text-decoration: none;
+
+    color: #ddd;
+
+    padding: 9px 16px;
+
+    border-radius: 10px;
+
+    border: 1px solid rgba(255,255,255,0.1);
+
+    transition: 0.2s;
+}
+
+
+.logout-btn:hover {
+    background: rgba(255,255,255,0.08);
+    color: white;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.typing-container {
+    width: min(1400px, 94%);
+
+    margin: 35px auto 60px;
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 24px;
+
+    margin-bottom: 38px;
+}
+
+
+.stat-card {
+    min-height: 110px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 20px;
+
+    border: 1px solid rgba(255,255,255,0.1);
+
+    background:
+        rgba(255,255,255,0.055);
+
+    backdrop-filter: blur(15px);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.25);
+}
+
+
+.stat-title {
+    font-size: 14px;
+
+    letter-spacing: 3px;
+
+    color: #888;
+
+    margin-bottom: 8px;
+}
+
+
+.stat-value {
+    font-size: 32px;
+
+    font-weight: 700;
+
+    color: #c5a1ff;
+}
+
+
+/* =========================
+   TYPING CARD
+========================= */
+
+.typing-card {
+    min-height: 430px;
+
+    padding: 55px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    border-radius: 32px;
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(100,60,170,0.14),
+            rgba(20,25,40,0.75)
+        );
+
+    backdrop-filter: blur(20px);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,0.3);
+}
+
+
+/* =========================
+   WORD DISPLAY
+========================= */
+
+.word-display {
+    min-height: 130px;
+
+    margin-bottom: 35px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 0;
+
+    line-height: 1.8;
+
+    font-size: 40px;
+
+    font-weight: 500;
+
+    color: #777;
+
+    text-align: center;
+}
+
+
+.word {
+    display: inline-block;
+}
+
+
+.word-space {
+    white-space: pre;
+}
+
+
+/* Individual characters */
+
+.character {
+    color: #777;
+
+    transition:
+        color 0.08s,
+        border 0.08s;
+}
+
+
+/* Current character */
+
+.character.current {
+    color: white;
+
+    border-left:
+        2px solid #a970ff;
+
+    animation:
+        cursorBlink 1s infinite;
+}
+
+
+/* Correct characters */
+
+.character.correct {
+    color: #a970ff;
+}
+
+
+/* Cursor animation */
+
+@keyframes cursorBlink {
+
+    0% {
+        border-color: #a970ff;
+    }
+
+    50% {
+        border-color: transparent;
+    }
+
+    100% {
+        border-color: #a970ff;
+    }
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+#typing-input {
+    width: 100%;
+
+    height: 82px;
+
+    padding: 0 25px;
+
+    border-radius: 18px;
+
+    border:
+        2px solid #9d5cff;
+
+    outline: none;
+
+    background:
+        rgba(5,5,15,0.7);
+
+    color: white;
+
+    font-size: 28px;
+
+    text-align: center;
+
+    caret-color: transparent;
+
+    box-shadow:
+        0 0 25px rgba(139,92,246,0.12);
+
+    transition:
+        0.25s;
+}
+
+
+#typing-input:focus {
+    border-color: #b77aff;
+
+    box-shadow:
+        0 0 30px rgba(139,92,246,0.25);
+}
+
+
+/* =========================
+   INSTRUCTION
+========================= */
+
+.instruction {
+    margin-top: 24px;
+
+    text-align: center;
+
+    color: #888;
+
+    font-size: 16px;
+}
+
+
+.instruction strong {
+    color: #c7a1ff;
+}
+
+
+/* =========================
+   KEYBOARD
+========================= */
+
+.keyboard {
+    margin-top: 42px;
+
+    padding: 30px;
+
+    border-radius: 28px;
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    background:
+        rgba(20,20,30,0.55);
+
+    backdrop-filter: blur(15px);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,0.25);
+}
+
+
+.keyboard-row {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    margin-bottom: 10px;
+}
+
+
+.keyboard button {
+    width: 58px;
+    height: 52px;
+
+    border-radius: 10px;
+
+    border:
+        1px solid rgba(255,255,255,0.12);
+
+    background:
+        rgba(255,255,255,0.06);
+
+    color: #bbb;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: default;
+
+    transition:
+        0.08s;
+}
+
+
+.keyboard button.active {
+    background: #8b5cf6;
+
+    color: white;
+
+    transform:
+        translateY(2px);
+
+    box-shadow:
+        0 0 20px rgba(139,92,246,0.55);
+}
+
+
+/* Space button */
+
+.space-row {
+    margin-top: 5px;
+}
+
+
+.space-key {
+    width: 420px !important;
+}
+
+
+/* =========================
+   FINISHED SCREEN
+========================= */
+
+.finished {
+    width: 100%;
+
+    text-align: center;
+
+    color: white;
+
+    font-size: 32px;
+
+    line-height: 1.8;
+}
+
+
+.finished span {
+    color: #c9a7ff;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .stats {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .typing-card {
+        padding: 30px;
+    }
+
+    .word-display {
+        font-size: 30px;
+    }
+
+    .keyboard button {
+        width: 45px;
+        height: 45px;
+    }
+
+    .space-key {
+        width: 300px !important;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .navbar {
+        padding: 18px;
+    }
+
+    .user-email {
+        display: none;
+    }
+
+    .stats {
+        grid-template-columns:
+            1fr 1fr;
+
+        gap: 12px;
+    }
+
+    .stat-card {
+        min-height: 90px;
+    }
+
+    .stat-value {
+        font-size: 24px;
+    }
+
+    .typing-card {
+        padding: 20px;
+    }
+
+    .word-display {
+        font-size: 24px;
+    }
+
+    #typing-input {
+        height: 65px;
+        font-size: 22px;
+    }
+
+    .keyboard {
+        padding: 15px;
+    }
+
+    .keyboard-row {
+        gap: 4px;
+    }
+
+    .keyboard button {
+        width: 30px;
+        height: 38px;
+
+        font-size: 11px;
+    }
+
+    .space-key {
+        width: 220px !important;
+    }
+    .start-round-btn {
+    margin-top: 20px;
+
+    padding: 14px 28px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #8b5cf6;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 25px rgba(139,92,246,0.35);
+
+    transition: 0.2s;
+}
+
+.start-round-btn:hover {
+    transform: translateY(-2px);
+
+    background: #9d6cff;
+
+    box-shadow:
+        0 0 35px rgba(139,92,246,0.5);
+}
+/* =========================
+   TYPING PROGRESS
+========================= */
+
+.progress-container {
+    width: 100%;
+    max-width: 850px;
+    margin: 25px auto 10px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 8px;
+
+    color: #9f9faa;
+    font-size: 13px;
+}
+
+#word-progress {
+    color: #c4b5fd;
+    font-weight: 600;
+}
+
+#progress-percent {
+    color: #888894;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+
+    overflow: hidden;
+
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+#progress-fill {
+    width: 0%;
+
+    height: 100%;
+
+    border-radius: 20px;
+
+    background: linear-gradient(
+        90deg,
+        #7c3aed,
+        #a855f7
+    );
+
+    box-shadow:
+        0 0 15px rgba(139, 92, 246, 0.5);
+
+    transition:
+        width 0.25s ease;
+}
+}

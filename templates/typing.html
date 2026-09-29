@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>TypeFlow - Typing Test</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/typing.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <div class="logo">
+            TypeFlow
+        </div>
+
+        <div class="nav-right">
+            <span class="user-email">
+                {{ email }}
+            </span>
+
+            <a href="/logout" class="logout-btn">
+                Logout
+            </a>
+        </div>
+
+    </nav>
+
+
+    <!-- MAIN -->
+    <main class="typing-container">
+
+        <!-- STATS -->
+        <section class="stats">
+
+            <div class="stat-card">
+                <div class="stat-title">
+                    ROUND
+                </div>
+
+                <div class="stat-value">
+                    1 / 2
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-title">
+                    TIME
+                </div>
+
+                <div class="stat-value" id="timer">
+                    0.00s
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-title">
+                    ACCURACY
+                </div>
+
+                <div class="stat-value" id="accuracy">
+                    100.0%
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-title">
+                    WPM
+                </div>
+
+                <div class="stat-value" id="wpm">
+                    0
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- TYPING AREA -->
+        <section class="typing-card">
+
+            <div id="word-display" class="word-display">
+            </div>
+            <div class="progress-container">
+
+    <div class="progress-info">
+        <span id="word-progress">Word 1 / 15</span>
+        <span id="progress-percent">0%</span>
+    </div>
+
+    <div class="progress-bar">
+        <div id="progress-fill"></div>
+    </div>
+
+</div>
+
+
+            <!-- KEYBOARD INPUT -->
+            <input
+                type="text"
+                id="typing-input"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+            >
+
+
+            <p class="instruction">
+                Type every character correctly.
+                Press <strong>Space</strong> after each word.
+            </p>
+
+        </section>
+
+
+        <!-- ON SCREEN KEYBOARD -->
+        <section class="keyboard">
+
+            <!-- ROW 1 -->
+            <div class="keyboard-row">
+
+                <button data-key="q">Q</button>
+                <button data-key="w">W</button>
+                <button data-key="e">E</button>
+                <button data-key="r">R</button>
+                <button data-key="t">T</button>
+                <button data-key="y">Y</button>
+                <button data-key="u">U</button>
+                <button data-key="i">I</button>
+                <button data-key="o">O</button>
+                <button data-key="p">P</button>
+
+            </div>
+
+
+            <!-- ROW 2 -->
+            <div class="keyboard-row">
+
+                <button data-key="a">A</button>
+                <button data-key="s">S</button>
+                <button data-key="d">D</button>
+                <button data-key="f">F</button>
+                <button data-key="g">G</button>
+                <button data-key="h">H</button>
+                <button data-key="j">J</button>
+                <button data-key="k">K</button>
+                <button data-key="l">L</button>
+
+            </div>
+
+
+            <!-- ROW 3 -->
+            <div class="keyboard-row">
+
+                <button data-key="z">Z</button>
+                <button data-key="x">X</button>
+                <button data-key="c">C</button>
+                <button data-key="v">V</button>
+                <button data-key="b">B</button>
+                <button data-key="n">N</button>
+                <button data-key="m">M</button>
+
+            </div>
+
+
+            <!-- SPACE -->
+            <div class="keyboard-row space-row">
+
+                <button
+                    data-key=" "
+                    class="space-key"
+                >
+                    SPACE
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="{{ url_for('static', filename='js/typing.js') }}"></script>
+
+</body>
+</html>

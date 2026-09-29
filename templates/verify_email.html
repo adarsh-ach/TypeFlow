@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Verify Email - TypeFlow</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #1e1b4b,
+                    transparent 40%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    #312e81,
+                    transparent 40%
+                ),
+                #08080f;
+
+            color: #ffffff;
+
+            padding: 20px;
+        }
+
+
+        .verify-container {
+
+            width: 100%;
+            max-width: 430px;
+
+            padding: 42px 35px;
+
+            border-radius: 24px;
+
+            background:
+                rgba(255, 255, 255, 0.06);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.10);
+
+            backdrop-filter: blur(20px);
+
+            box-shadow:
+                0 25px 70px
+                rgba(0, 0, 0, 0.45);
+
+            text-align: center;
+
+            animation:
+                fadeIn 0.5s ease;
+        }
+
+
+        @keyframes fadeIn {
+
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        .logo {
+
+            font-size: 30px;
+
+            font-weight: 800;
+
+            letter-spacing: -1px;
+
+            margin-bottom: 25px;
+
+            color: #ffffff;
+        }
+
+
+        .logo span {
+
+            color: #8b5cf6;
+        }
+
+
+        .icon {
+
+            width: 75px;
+            height: 75px;
+
+            margin: 0 auto 22px;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 50%;
+
+            background:
+                rgba(139, 92, 246, 0.15);
+
+            border:
+                1px solid
+                rgba(139, 92, 246, 0.35);
+
+            font-size: 32px;
+
+            box-shadow:
+                0 0 30px
+                rgba(139, 92, 246, 0.20);
+        }
+
+
+        h1 {
+
+            font-size: 25px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .description {
+
+            color: #a1a1aa;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+            margin-bottom: 10px;
+        }
+
+
+        .email {
+
+            color: #c4b5fd;
+
+            font-weight: 600;
+
+            word-break: break-all;
+
+            margin-bottom: 28px;
+        }
+
+
+        .code-input {
+
+            width: 100%;
+
+            padding: 17px 15px;
+
+            border-radius: 14px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.12);
+
+            background:
+                rgba(0, 0, 0, 0.25);
+
+            color: white;
+
+            font-size: 25px;
+
+            font-weight: 700;
+
+            letter-spacing: 12px;
+
+            text-align: center;
+
+            outline: none;
+
+            transition: 0.2s;
+
+            margin-bottom: 18px;
+        }
+
+
+        .code-input:focus {
+
+            border-color: #8b5cf6;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(139, 92, 246, 0.15);
+        }
+
+
+        .code-input::placeholder {
+
+            color: #52525b;
+
+            letter-spacing: 8px;
+        }
+
+
+        .verify-button {
+
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c3aed,
+                    #8b5cf6
+                );
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+            box-shadow:
+                0 8px 25px
+                rgba(124, 58, 237, 0.30);
+        }
+
+
+        .verify-button:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 12px 30px
+                rgba(124, 58, 237, 0.45);
+        }
+
+
+        .verify-button:active {
+
+            transform:
+                translateY(0);
+        }
+
+
+        .back-link {
+
+            display: inline-block;
+
+            margin-top: 22px;
+
+            color: #a1a1aa;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+
+        .back-link:hover {
+
+            color: #c4b5fd;
+        }
+
+
+        .security-text {
+
+            margin-top: 25px;
+
+            padding-top: 20px;
+
+            border-top:
+                1px solid
+                rgba(255, 255, 255, 0.07);
+
+            color: #71717a;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        @media (max-width: 480px) {
+
+            .verify-container {
+
+                padding:
+                    35px 22px;
+            }
+
+
+            h1 {
+
+                font-size: 22px;
+            }
+
+
+            .code-input {
+
+                font-size: 21px;
+
+                letter-spacing: 8px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="verify-container">
+
+
+        <div class="logo">
+
+            Type<span>Flow</span>
+
+        </div>
+
+
+        <div class="icon">
+
+            ✉️
+
+        </div>
+
+
+        <h1>
+
+            Verify your email
+
+        </h1>
+
+
+        <p class="description">
+
+            We've sent a 6-digit verification
+            code to:
+
+        </p>
+
+
+        <div class="email">
+
+            {{ email }}
+
+        </div>
+
+
+        <form
+            action="/verify-email"
+            method="POST"
+        >
+
+
+            <input
+
+                type="hidden"
+
+                name="email"
+
+                value="{{ email }}"
+            >
+
+
+            <input
+
+                class="code-input"
+
+                type="text"
+
+                name="verification_code"
+
+                placeholder="000000"
+
+                maxlength="6"
+
+                pattern="[0-9]{6}"
+
+                inputmode="numeric"
+
+                autocomplete="one-time-code"
+
+                required
+
+                autofocus
+            >
+
+
+            <button
+                type="submit"
+                class="verify-button"
+            >
+
+                Verify Email
+
+            </button>
+
+
+        </form>
+
+
+        <a
+            href="/register"
+            class="back-link"
+        >
+
+            ← Back to registration
+
+        </a>
+
+
+        <div class="security-text">
+
+            🔒 Your email is used to verify
+            ownership of your account.
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>
